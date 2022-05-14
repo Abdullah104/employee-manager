@@ -4,22 +4,22 @@ const routes = [
   {
     path: '/',
     name: 'dashboard',
-    component: import('../components/Dashboard.vue')
+    component: () => import('../components/Dashboard.vue')
   },
   {
     path: '/new',
     name: 'new-employee',
-    component: import('../components/NewEmployee.vue')
+    component: () => import('../components/NewEmployee.vue')
   },
   {
     path: '/edit/:employeeId',
     name: 'edit-employee',
-    component: import('../components/EditEmployee.vue')
+    component: () => import('../components/EditEmployee.vue')
   },
   {
     path: '/:employeeId',
     name: 'view-employee',
-    component: import('../components/ViewEmployee.vue')
+    component: () => import('../components/ViewEmployee.vue')
   },
 ]
 
