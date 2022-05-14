@@ -12,12 +12,12 @@ const routes = [
     component: import('../components/NewEmployee.vue')
   },
   {
-    path: '/edit/:employee_id',
+    path: '/edit/:employeeId',
     name: 'edit-employee',
     component: import('../components/EditEmployee.vue')
   },
   {
-    path: '/view/:employee_id',
+    path: '/:employeeId',
     name: 'view-employee',
     component: import('../components/ViewEmployee.vue')
   },
