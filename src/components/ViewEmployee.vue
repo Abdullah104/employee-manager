@@ -4,12 +4,20 @@
       <li class="collection-header">
         <h4>{{ name }}</h4>
       </li>
-      <li class="collection-item">Employee Id#: {{ employeeId }}</li>
+      <li class="collection-item">Employee ID#: {{ employeeId }}</li>
       <li class="collection-item">Department: {{ department }}</li>
       <li class="collection-item">Position: {{ position }}</li>
     </ul>
     <router-link class="btn grey" to="/">Back</router-link>
     <button class="btn red" @click="deleteEmployee">Delete</button>
+    <div class="fixed-action-btn">
+      <router-link
+        class="btn-floating btn-large red"
+        v-bind:to="{ name: 'edit-employee' }"
+      >
+        <i class="fa fa-pen"></i>
+      </router-link>
+    </div>
   </div>
 </template>
 
@@ -76,7 +84,7 @@ export default {
         const document = snapshot.docs[0];
         const { name, department, position } = document.data();
 
-        this.employeeId = to.params.employeeId;
+        this.employeeId = this.$route.params.employeeId;
         this.name = name;
         this.department = department;
         this.position = position;
