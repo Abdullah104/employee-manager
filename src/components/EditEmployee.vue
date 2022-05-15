@@ -41,27 +41,35 @@ import {
   updateDoc,
 } from "firebase/firestore";
 
+async function getEmployee(employeeId) {
+  const employeesCollection = collection(firestore, "employees");
+
+  const employeesQuery = query(
+    employeesCollection,
+    where("employee_id", "==", employeeId),
+    limit(1)
+  );
+
+  const snapshot = await getDocs(employeesQuery);
+  const document = snapshot.docs[0];
+
+  return document;
+}
+
 export default {
   name: "edit-employee",
   data() {
     return { employeeId: null, name: null, department: null, position: null };
   },
   async beforeRouteEnter(to, _, next) {
-    if (to.params.employeeId != null) {
-      const employeesCollection = collection(firestore, "employees");
+    const employeeId = to.params.employeeId;
 
-      const employeesQuery = query(
-        employeesCollection,
-        where("employee_id", "==", to.params.employeeId),
-        limit(1)
-      );
-
-      const snapshot = await getDocs(employeesQuery);
-      const document = snapshot.docs[0];
+    if (employeeId != null) {
+      const document = await getEmployee(employeeId);
       const { name, department, position } = document.data();
 
       next((vm) => {
-        vm.employeeId = to.params.employeeId;
+        vm.employeeId = employeeId;
         vm.name = name;
         vm.department = department;
         vm.position = position;
@@ -74,17 +82,10 @@ export default {
   },
   methods: {
     async fetchData() {
-      if (this.$route.params.employeeId != null) {
-        const employeesCollection = collection(firestore, "employees");
+      const employeeId = this.$route.params.employeeId;
 
-        const employeesQuery = query(
-          employeesCollection,
-          where("employee_id", "==", this.$route.params.employeeId),
-          limit(1)
-        );
-
-        const snapshot = await getDocs(employeesQuery);
-        const document = snapshot.docs[0];
+      if (employeeId != null) {
+        const document = await getEmployee(employeeId);
         const { name, department, position } = document.data();
 
         this.employeeId = this.$route.params.employeeId;
